@@ -12,7 +12,6 @@ import java.time.ZonedDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
-@Builder
 public class Favorite {
     @Id
     @GeneratedValue(generator = "favorite_gen",strategy = GenerationType.SEQUENCE)

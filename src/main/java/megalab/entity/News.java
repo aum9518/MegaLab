@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Builder
 public class News {
     @Id
     @GeneratedValue(generator = "news_gen", strategy = GenerationType.SEQUENCE)
@@ -38,7 +37,7 @@ public class News {
     private List<Category>categories;
 
 
-
+@Builder
     public News(String name, String image, String description, String text, ZonedDateTime createDate) {
         this.name = name;
         this.image = image;

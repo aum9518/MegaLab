@@ -17,7 +17,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class UserInfo implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "userInfo_gen")
