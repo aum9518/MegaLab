@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 @Setter
@@ -18,6 +20,9 @@ public class Category {
     @SequenceGenerator(name = "categories_gen",sequenceName = "categories_seq",allocationSize = 1)
     private Long id;
     private String name;
+
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private List<News>news;
 
     public Category(String name) {
         this.name = name;

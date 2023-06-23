@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
+import java.util.List;
+
 @Entity
 @Table(name = "comments")
 @Setter
@@ -21,6 +23,16 @@ public class Comment {
     private String text;
     private ZonedDateTime createDate;
     private ZonedDateTime updatedDate;
+
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private User user;
+
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private News news;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Comment> comments;
 
     public Comment(String text, ZonedDateTime createDate, ZonedDateTime updatedDate) {
         this.text = text;

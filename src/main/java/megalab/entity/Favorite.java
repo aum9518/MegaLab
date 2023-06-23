@@ -20,6 +20,12 @@ public class Favorite {
     private Long id;
     private ZonedDateTime createDate;
 
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private User user;
+
+    @ManyToOne (cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private News news;
+
     public Favorite(ZonedDateTime createDate) {
         this.createDate = createDate;
     }
