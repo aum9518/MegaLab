@@ -21,7 +21,4 @@ public class User  {
     private String nickName;
     private String image;
     private boolean isBlock;
-
-
-
 }
