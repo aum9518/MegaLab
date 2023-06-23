@@ -31,6 +31,11 @@ public class UserInfo implements UserDetails {
     private ZonedDateTime modifiedAt;
     private Role role;
 
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private User user;
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return  List.of(new SimpleGrantedAuthority(role.name()));
