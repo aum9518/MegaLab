@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Builder
 public class Category {
     @Id
     @GeneratedValue(generator = "categories_gen",strategy = GenerationType.SEQUENCE)

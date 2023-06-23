@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Builder
+
 public class Comment {
     @Id
     @GeneratedValue(generator = "comments_gen",strategy = GenerationType.SEQUENCE)
