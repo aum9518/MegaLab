@@ -2,6 +2,13 @@ package megalab.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import megalab.enums.Role;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -10,7 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_gen")
     @SequenceGenerator(name = "user_gen",sequenceName = "user_seq",allocationSize = 1)
@@ -20,4 +27,7 @@ public class User {
     private String nickName;
     private String image;
     private boolean isBlock;
+
+
+
 }
