@@ -1,7 +1,6 @@
 package megalab.config;
 
 import lombok.RequiredArgsConstructor;
-import megalab.entity.UserInfo;
 import megalab.exception.NotFoundException;
 import megalab.repository.UserInfoRepository;
 import org.springframework.context.annotation.Bean;
