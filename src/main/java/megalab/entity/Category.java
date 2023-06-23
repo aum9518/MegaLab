@@ -1,5 +1,4 @@
 package megalab.entity;
-
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
