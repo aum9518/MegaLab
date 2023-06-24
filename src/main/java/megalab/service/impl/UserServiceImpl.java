@@ -154,7 +154,10 @@ public class UserServiceImpl implements UserService {
         UserInfo userInfo = userInfoRepository.findById(user.getUserInfo().getId()).orElseThrow(() -> new NotFoundException(String.format("UserInfo with id:%s is not present", user.getUserInfo().getUser())));
         if (authentication.getUserInfo().getRole().equals(Role.ADMIN)) {
 
+
             if (user.getUserInfo().getRole().equals(Role.ADMIN)) {
+
+
 
                 userRepository.deleteById(id);
                 return SimpleResponse.builder()
@@ -171,10 +174,15 @@ public class UserServiceImpl implements UserService {
             } else throw new BadRequestException("You can not delete this account");
 
 
+
+        }
+
+
         }
         return null;
     }
 }
+
 
 //    @Override
 //    public UserPagination searchUser(String word, int currentPage, int pageSize) {
