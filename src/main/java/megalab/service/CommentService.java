@@ -9,7 +9,7 @@ public interface CommentService {
     SimpleResponse saveComment(CommentRequest commentRequest);
     CommentPagination getAllComment(Long newsId, int currentPage, int pageSize);
     CommentResponse getByIdComment(Long id);
-    SimpleResponse updateComment(Long id, CommentRequest commentRequest);
+    SimpleResponse updateComment(Long id, Long newsId, CommentRequest commentRequest);
     SimpleResponse deleteComment(Long id);
 
 }
