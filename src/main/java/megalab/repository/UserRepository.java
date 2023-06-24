@@ -2,7 +2,6 @@ package megalab.repository;
 
 import megalab.dto.user.UserResponse;
 import megalab.entity.User;
-import megalab.entity.UserInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

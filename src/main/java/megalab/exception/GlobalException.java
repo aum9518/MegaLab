@@ -35,4 +35,14 @@ public class GlobalException {
                 .className(e.getClass().getSimpleName())
                 .build();
     }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionResponse handleNotFound(BadRequestException e) {
+        return ExceptionResponse.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .message(e.getMessage())
+                .className(e.getClass().getSimpleName())
+                .build();
+    }
 }
