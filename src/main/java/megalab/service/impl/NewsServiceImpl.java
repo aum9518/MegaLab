@@ -14,6 +14,7 @@ import megalab.exception.NotFoundException;
 import megalab.repository.CategoryRepository;
 import megalab.repository.NewsRepository;
 import megalab.repository.UserRepository;
+import megalab.service.CommentService;
 import megalab.service.NewsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,6 +33,7 @@ public class NewsServiceImpl implements NewsService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final JdbcTemplate jdbcTemplate;
+//    private final CommentService commentService;
 
     @Override
     public SimpleResponse saveNews(NewsRequest newsRequest) {
@@ -63,10 +65,10 @@ public class NewsServiceImpl implements NewsService {
     public NewsPagination getAllNews(int currentPage, int pageSize) {
         int offset = (currentPage - 1) * pageSize;
         String query = "SELECT n.id,n.name,n.image,n.description,n.create_date FROM news n  LIMIT ? OFFSET ?";
-        List<AllNewsResponse> list  = jdbcTemplate
+        List<AllNewsResponse> list = jdbcTemplate
                 .query(
                         query,
-                        new Object[] {pageSize,offset},
+                        new Object[]{pageSize, offset},
                         (rs, rowNum) -> new AllNewsResponse(
                                 rs.getLong("id"),
                                 rs.getString("name"),
@@ -83,7 +85,9 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public NewsResponse getByIdNews(Long id) {
+    public NewsResponse getByIdNews(Long id, int currentPage, int pageSize) {
+        NewsResponse newsResponse = newsRepository.getNewsId(id).orElseThrow(() -> new NotFoundException("News with id: %s not found".formatted(id)));
+//        newsResponse.setComments(commentService.getAllComment(currentPage,pageSize));
         return null;
     }
 
