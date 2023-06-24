@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userRequest.phoneNumber());
         user.setGender(userRequest.gender());
         user.setBlock(false);
+
         userRepository.save(user);
 
         userInfo.setNickName(userRequest.nickName());
@@ -73,6 +74,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setCreatedAt(ZonedDateTime.now());
         userInfo.setUser(user);
         userInfoRepository.save(userInfo);
+
 
         return SimpleResponse.builder()
                 .status(HttpStatus.OK)
@@ -97,7 +99,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setModifiedAt(ZonedDateTime.now());
 
 
-        if (user.getUserInfo().getRole().equals(Role.ADMIN)){
+        if (authentication.getUserInfo().getRole().equals(Role.ADMIN)){
             userRepository.save(user);
             userInfoRepository.save(userInfo);
             return SimpleResponse.builder()
@@ -121,7 +123,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id:%s is not present", id)));
         UserInfo userInfo = userInfoRepository.findById(user.getUserInfo().getId()).orElseThrow(() -> new NotFoundException(String.format("UserInfo with id:%s is not present", user.getUserInfo().getUser())));
         User user1 = getAuthentication();
-        if (user.getUserInfo().getRole().equals(Role.ADMIN)){
+        if (user1.getUserInfo().getRole().equals(Role.ADMIN)){
             return UserResponse.builder()
                     .id(user.getId())
                     .firstName(user.getFirstName())
@@ -148,7 +150,12 @@ public class UserServiceImpl implements UserService {
     public SimpleResponse deleteUser(Long id) {
         User authentication = getAuthentication();
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id:%s is not present", id)));
+
+        UserInfo userInfo = userInfoRepository.findById(user.getUserInfo().getId()).orElseThrow(() -> new NotFoundException(String.format("UserInfo with id:%s is not present", user.getUserInfo().getUser())));
+        if (authentication.getUserInfo().getRole().equals(Role.ADMIN)){
+
         if (user.getUserInfo().getRole().equals(Role.ADMIN)){
+
             userRepository.deleteById(id);
             return SimpleResponse.builder()
                     .status(HttpStatus.OK)
