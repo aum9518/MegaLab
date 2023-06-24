@@ -28,7 +28,7 @@ values (1,'Wow',now(),now(),1,3),
        (3,'Super',now(),now(),1,3),
        (4,'Lol',now(),now(),1,4);
 
-insert into categories_news (categories_id, news_id)
+insert into news_categories (categories_id, news_id)
 values (1,1),
        (1,4),
        (2,3),
