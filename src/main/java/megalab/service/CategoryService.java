@@ -11,4 +11,5 @@ public interface CategoryService {
     CategoryResponse getByIdCategory(Long id);
     SimpleResponse updateCategory(Long id, CategoryRequest categoryRequest);
     SimpleResponse deleteCategory(Long id);
+   CategoryPagination searchByName(String word, int currentPage,int pageSize);
 }

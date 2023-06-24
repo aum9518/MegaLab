@@ -10,6 +10,8 @@ import megalab.service.CategoryService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/category")
 @RequiredArgsConstructor
@@ -49,6 +51,13 @@ public class CategoryApi {
     @Operation(summary = "update Category", description = "update")
     public SimpleResponse update(@PathVariable Long id, @RequestBody CategoryRequest request) {
         return categoryServices.updateCategory(id, request);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER','JOURNALIST')")
+    @GetMapping("/search")
+    @Operation(summary = "search Category", description = "update")
+    public CategoryPagination search(@RequestParam String word, @RequestParam int currentPage, @RequestParam int pageSize) {
+        return categoryServices.searchByName(word, currentPage, pageSize);
     }
 }
 

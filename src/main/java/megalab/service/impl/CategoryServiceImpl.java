@@ -71,4 +71,15 @@ public class CategoryServiceImpl implements CategoryService {
                 .message("Успешно")
                 .build();
     }
+
+    @Override
+    public CategoryPagination searchByName(String word, int currentPage, int pageSize) {
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+        Page<CategoryResponse> allCategories = categoryRepository.searchCategoryByName(word,pageable);
+        return CategoryPagination.builder()
+                .categoryResponses(allCategories.getContent())
+                .currentPage(allCategories.getNumber() + 1)
+                .pageSize(allCategories.getTotalPages())
+                .build();
+    }
 }
