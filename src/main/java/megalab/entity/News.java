@@ -33,7 +33,7 @@ public class News {
     @OneToMany(mappedBy = "news",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE})
     private List<Favorite> favorites;
 
-    @ManyToMany(mappedBy = "news",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     private List<Category>categories;
 
 
