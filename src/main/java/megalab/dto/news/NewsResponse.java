@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import megalab.dto.comment.CommentPagination;
 
 import java.time.ZonedDateTime;
 
@@ -18,6 +19,7 @@ public class NewsResponse {
     private String description;
     private String text;
     private ZonedDateTime createdAt;
+    private CommentPagination comments;
 
     public NewsResponse(Long id, String name, String image, String description, String text, ZonedDateTime createdAt) {
         this.id = id;
