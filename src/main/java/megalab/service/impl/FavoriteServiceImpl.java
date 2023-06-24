@@ -36,7 +36,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final NewsRepository newsRepository;
 
     @Override
-    public SimpleResponse favoriteUserToNews(FavoriteRequest favoriteRequest) {
+    public SimpleResponse saveFavorite(FavoriteRequest favoriteRequest) {
         String nickName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.getUserByUserInfoNickName(nickName).orElseThrow(() -> new NotFoundException("User with nickname: %s not found".formatted(nickName)));
         News news = newsRepository.findById(favoriteRequest.newsId()).orElseThrow(() -> new NotFoundException("News with id: %s not found".formatted(favoriteRequest.newsId())));
@@ -44,9 +44,11 @@ public class FavoriteServiceImpl implements FavoriteService {
                 .builder()
                 .createDate(ZonedDateTime.now())
                 .build();
+        favoriteRepository.save(favorite);
+        news.getFavorites().add(favorite);
+        user.getFavorites().add(favorite);
         favorite.setUser(user);
         favorite.setNews(news);
-        favoriteRepository.save(favorite);
         return SimpleResponse
                 .builder()
                 .status(HttpStatus.OK)

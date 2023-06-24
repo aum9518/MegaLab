@@ -1,7 +1,6 @@
 package megalab.api;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.annotation.security.PermitAll;
 import lombok.RequiredArgsConstructor;
 import megalab.dto.SimpleResponse;
 import megalab.dto.news.NewsPagination;
