@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
+
 public class NewsResponse {
     private Long id;
     private String name;
@@ -20,7 +20,7 @@ public class NewsResponse {
     private String text;
     private ZonedDateTime createdAt;
     private CommentPagination comments;
-
+    @Builder
     public NewsResponse(Long id, String name, String image, String description, String text, ZonedDateTime createdAt) {
         this.id = id;
         this.name = name;

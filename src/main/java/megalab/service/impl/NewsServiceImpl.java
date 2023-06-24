@@ -33,7 +33,7 @@ public class NewsServiceImpl implements NewsService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final JdbcTemplate jdbcTemplate;
-//    private final CommentService commentService;
+    private final CommentService commentService;
 
     @Override
     public SimpleResponse saveNews(NewsRequest newsRequest) {
@@ -87,17 +87,67 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public NewsResponse getByIdNews(Long id, int currentPage, int pageSize) {
         NewsResponse newsResponse = newsRepository.getNewsId(id).orElseThrow(() -> new NotFoundException("News with id: %s not found".formatted(id)));
-//        newsResponse.setComments(commentService.getAllComment(currentPage,pageSize));
-        return null;
+        newsResponse.setComments(commentService.getAllComment(id, currentPage, pageSize));
+        return newsResponse;
     }
 
     @Override
     public SimpleResponse updateNews(Long id, NewsRequest newsRequest) {
-        return null;
+        String nickName = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.getUserByUserInfoNickName(nickName).orElseThrow(() -> new NotFoundException("User with nickname: %s not found".formatted(nickName)));
+        News news = newsRepository.getNewsId(id, user.getId()).orElseThrow(() -> new NotFoundException("News with id: %s not found".formatted(id)));
+        news.setName(newsRequest.name() == null || newsRequest.name().isBlank() || news.getName().equalsIgnoreCase(newsRequest.name()) ? news.getName() : newsRequest.name());
+        news.setDescription(newsRequest.description() == null || newsRequest.description().isBlank() || news.getDescription().equalsIgnoreCase(newsRequest.description()) ? news.getDescription() : newsRequest.description());
+        news.setImage(newsRequest.image() == null || newsRequest.image().isBlank() || news.getImage().equalsIgnoreCase(newsRequest.image()) ? news.getImage() : newsRequest.image());
+        news.setText(newsRequest.text() == null || newsRequest.text().isBlank() || news.getText().equalsIgnoreCase(newsRequest.text()) ? news.getText() : newsRequest.text());
+        newsRepository.save(news);
+        return SimpleResponse
+                .builder()
+                .status(HttpStatus.OK)
+                .message("News with id: %s successfully updated".formatted(id))
+                .build();
     }
 
     @Override
     public SimpleResponse deleteNews(Long id) {
+        News news = newsRepository.findById(id).orElseThrow(() -> new NotFoundException("News with id: %s not found".formatted(id)));
+        newsRepository.delete(news);
+        return SimpleResponse
+                .builder()
+                .status(HttpStatus.OK)
+                .message("News with id: %s successfully deleted".formatted(id))
+                .build();
+    }
+
+    @Override
+    public NewsPagination searchNews(String word, int currentPage, int pageSize) {
+        int offset = (currentPage - 1) * pageSize;
+        String query = "SELECT n.id,n.name,n.image,n.description,n.create_date FROM news n" +
+                " JOIN news_categories nc ON n.id = nc.news_id " +
+                " JOIN categories c on nc.categories_id = c.id " +
+                " WHERE n.name = ?1 OR n.description = ?1 OR n.text = ?1 OR c.name = ?1" +
+                "  LIMIT ?2 OFFSET ?3 ";
+        List<AllNewsResponse> list = jdbcTemplate
+                .query(
+                        query,
+                        new Object[]{word,pageSize, offset},
+                        (rs, rowNum) -> new AllNewsResponse(
+                                rs.getLong("id"),
+                                rs.getString("name"),
+                                rs.getString("image"),
+                                rs.getString("description"),
+                                rs.getString("create_date"))
+                );
+        return NewsPagination
+                .builder()
+                .newsResponses(list)
+                .currentPage(currentPage)
+                .pageSize(pageSize)
+                .build();
+    }
+
+    @Override
+    public NewsPagination getNewsByUserId(Long userId, int currentPage, int pageSize) {
         return null;
     }
 }

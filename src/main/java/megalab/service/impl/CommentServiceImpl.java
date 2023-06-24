@@ -41,7 +41,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentPagination getAllComment(Long newsId, int currentPage, int pageSize) {
-
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
         Page<CommentResponse> allComment = commentRepository.getAllComment(newsId,pageable);
         return CommentPagination.builder()
