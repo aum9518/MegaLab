@@ -60,7 +60,7 @@ public class CommentServiceImpl implements CommentService {
     public SimpleResponse updateComment(Long id, Long newsId, CommentRequest commentRequest) {
         String nickName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.getUserByUserInfoNickName(nickName).orElseThrow(() -> new NotFoundException("Comment with nickName: " + nickName + "is not fount"));
-        Comment comment = commentRepository.getCommentIdAndNewsId(id, newsId, user.getId()).orElseThrow(() -> new NotFoundException("Comment with id: " + id + "is not fount"));
+        Comment comment = commentRepository.getCommentIdAndNews(id, newsId, user.getId()).orElseThrow(() -> new NotFoundException("Comment with id: " + id + "is not fount"));
         comment.setText(commentRequest.text() == null || commentRequest.text().isBlank() || comment.getText().equalsIgnoreCase(commentRequest.text()) ? comment.getText() : commentRequest.text());
         comment.setUpdatedDate(ZonedDateTime.now());
         return SimpleResponse.builder()

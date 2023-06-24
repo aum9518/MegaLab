@@ -15,7 +15,7 @@ public class FavoriteApi {
     private final FavoriteService favoriteService ;
     @PostMapping("/{userId}/{newsId}")
     public SimpleResponse favoriteUserToNews(@PathVariable Long userId,@PathVariable Long newsId,@RequestBody FavoriteRequest favoriteRequest){
-        return favoriteService.favoriteUserToNews(userId,newsId,favoriteRequest);
+        return favoriteService.favoriteUserToNews(favoriteRequest);
     }
     @GetMapping("/getAll")
     public FavoritePagination getAllFavorite(@RequestParam int page,
@@ -28,7 +28,7 @@ public class FavoriteApi {
     }
     @PutMapping("/update/{userId}/{newsId}")
     public SimpleResponse update(@PathVariable Long userId, @PathVariable Long newsId,@RequestBody FavoriteRequest favoriteRequest){
-        return favoriteService.updateFavorite(userId,newsId,favoriteRequest);
+        return favoriteService.updateFavorite(userId, favoriteRequest);
     }
     @DeleteMapping("/deleted/{id}")
     public SimpleResponse deleted(@PathVariable Long id){

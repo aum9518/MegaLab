@@ -14,6 +14,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 Page<CommentResponse> getAllComment(Long newsId, Pageable pageable);
 @Query("SELECT NEW megalab.dto.comment.CommentResponse(c.id,c.text,c.createDate,c.updatedDate) FROM Comment c where c.id=:id")
    Optional <CommentResponse> getByIdComment(Long id);
-@Query("SELECT c from Comment c join c.news n join c.user u where c.id =: id and n.id=:newsId and u.id=:userId")
-Optional<Comment> getCommentIdAndNewsId(Long id, Long newsId,Long userId);
+@Query(" SELECT c FROM Comment c JOIN c.news n JOIN c.user u WHERE c.id = ?1 AND n.id= ?2 AND u.id= ?3")
+Optional<Comment> getCommentIdAndNews(Long id, Long newsId,Long userId);
 }
