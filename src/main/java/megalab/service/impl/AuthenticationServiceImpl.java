@@ -30,12 +30,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public AuthenticationResponse signUp(SignUpRequest signUpRequest) {
         if (userInfoRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new AlreadyExistException("User with email %s already exist".formatted(signUpRequest.getEmail()));
         }
-        if (userInfoRepository.existsByNickName(signUpRequest.getNickName())){
+        if (userInfoRepository.existsByNickName(signUpRequest.getNickName())) {
             throw new AlreadyExistException("User with nickName %s already exist".formatted(signUpRequest.getNickName()));
         }
         User user = User.builder()
@@ -46,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .image(signUpRequest.getImage())
                 .phoneNumber(signUpRequest.getPhoneNumber())
                 .isBlock(false).build();
-        UserInfo userInfo =UserInfo.builder()
+        UserInfo userInfo = UserInfo.builder()
                 .nickName(signUpRequest.getNickName())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
                 .email(signUpRequest.getEmail())
@@ -54,11 +55,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .modifiedAt(ZonedDateTime.now())
                 .role(Role.READER)
                 .build();
-
-        user.setUserInfo(userInfo);
-        userInfo.setUser(user);
         userRepository.save(user);
         userInfoRepository.save(userInfo);
+        user.setUserInfo(userInfo);
+        userInfo.setUser(user);
         return AuthenticationResponse.builder()
                 .token(jwtService.generateToken(userInfo))
                 .email(userInfo.getEmail()).build();
@@ -66,7 +66,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse signIn(SignInRequest signInRequest) {
-       UserInfo userInfo = userInfoRepository.getUserByEmail(signInRequest.getEmail()).orElseThrow(
+        UserInfo userInfo = userInfoRepository.getUserByEmail(signInRequest.getEmail()).orElseThrow(
                 () -> new EntityNotFoundException("User with email: " + signInRequest.getEmail() + " not found!")
         );
         if (signInRequest.getPassword().isBlank()) {

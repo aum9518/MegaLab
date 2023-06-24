@@ -1,12 +1,10 @@
 package megalab.api;
 
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import megalab.dto.authentication.AuthenticationResponse;
 import megalab.dto.authentication.SignInRequest;
 import megalab.dto.authentication.SignUpRequest;
 import megalab.service.AuthenticationService;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +20,6 @@ public class AuthenticationApi {
         return authenticationService.signUp(signUpRequest);
     }
     @PostMapping("/signIn")
-
     public AuthenticationResponse signIn(@RequestBody SignInRequest signInRequest){
         return authenticationService.signIn(signInRequest);
     }

@@ -147,7 +147,27 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public NewsPagination getNewsByUserId(Long userId, int currentPage, int pageSize) {
-        return null;
+    public NewsPagination getNewsByUserId( int currentPage, int pageSize) {
+        String nickName = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.getUserByUserInfoNickName(nickName).orElseThrow(() -> new NotFoundException("User with nickname: %s not found".formatted(nickName)));
+        int offset = (currentPage - 1) * pageSize;
+        String query = "SELECT n.id, n.name, n.image, n.description, n.create_date FROM news n " +
+                "JOIN users u on n.user_id = u.id WHERE u.id = ? LIMIT ? OFFSET ?";
+        List<AllNewsResponse> allNewsResponses = jdbcTemplate
+                .query(query,
+                        new Object[]{user.getId(),pageSize,offset},
+                        (rs, rowNum) -> new AllNewsResponse(
+                                rs.getLong(1),
+                                rs.getString(2),
+                                rs.getString(3),
+                                rs.getString(4),
+                                rs.getString(5)
+                        ));
+        return NewsPagination
+                .builder()
+                .newsResponses(allNewsResponses)
+                .currentPage(currentPage)
+                .pageSize(pageSize)
+                .build();
     }
 }

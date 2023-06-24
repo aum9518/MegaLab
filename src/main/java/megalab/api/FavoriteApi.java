@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class FavoriteApi {
     private final FavoriteService favoriteService ;
-    @PostMapping("/{userId}/{newsId}")
-    public SimpleResponse favoriteUserToNews(@PathVariable Long userId,@PathVariable Long newsId,@RequestBody FavoriteRequest favoriteRequest){
+    @PostMapping
+    public SimpleResponse favoriteUserToNews(@RequestBody FavoriteRequest favoriteRequest){
         return favoriteService.favoriteUserToNews(favoriteRequest);
     }
     @GetMapping("/getAll")
@@ -26,11 +26,11 @@ public class FavoriteApi {
     public FavoriteResponse getById(@PathVariable Long id){
         return favoriteService.getByIdFavorite(id);
     }
-    @PutMapping("/update/{userId}/{newsId}")
-    public SimpleResponse update(@PathVariable Long userId, @PathVariable Long newsId,@RequestBody FavoriteRequest favoriteRequest){
+    @PutMapping("/{userId}")
+    public SimpleResponse update(@PathVariable Long userId,@RequestBody FavoriteRequest favoriteRequest){
         return favoriteService.updateFavorite(userId, favoriteRequest);
     }
-    @DeleteMapping("/deleted/{id}")
+    @DeleteMapping("/{id}")
     public SimpleResponse deleted(@PathVariable Long id){
         return favoriteService.deleteFavorite(id);
     }

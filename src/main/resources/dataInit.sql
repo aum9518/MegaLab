@@ -1,8 +1,8 @@
-insert into users (id,first_name,last_name,image,is_block)
-values(1,'Admin','Admin','img',false),
-      (2,'Askar','Salymbekov','img',false),
-      (3,'Omurbek','Babanov','img',false),
-      (4,'Askar','Akaev','img',true);
+insert into users (id,first_name,last_name,image,is_block,gender,date_of_birth,phone_number)
+values(1,'Admin','Admin','img',false,'MALE',now(),'+996700102030'),
+      (2,'Askar','Salymbekov','img',false,'MALE',now(),'+996700102031'),
+      (3,'Omurbek','Babanov','img',false,'MALE',now(),'+996700102032'),
+      (4,'Askar','Akaev','img',true,'MALE',now(),'+996700102033');
 
 insert  into user_info (id,nick_name,email,password,role,created_at,modified_at,user_id)
 values (1,'admin123','admin@gmail.com','$2a$12$VA0btDbN.xJpCbxvcOzZRO87UgU6h7LdKtNQtsYsQCrtct6IAFPb2','ADMIN',now(),now(),1),         --> Admin123
