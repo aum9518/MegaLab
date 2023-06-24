@@ -1,7 +1,6 @@
 package megalab.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +17,7 @@ import java.util.List;
 public class Comment {
     @Id
     @GeneratedValue(generator = "comments_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "comments_gen",sequenceName = "comments_seq",allocationSize = 1)
+    @SequenceGenerator(name = "comments_gen",sequenceName = "comments_seq",allocationSize = 1,initialValue = 5)
     private Long id;
     private String text;
     private ZonedDateTime createDate;
