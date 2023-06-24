@@ -69,8 +69,8 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
-    public SimpleResponse updateFavorite(Long id, FavoriteRequest favoriteRequest) {
-        return null;
+    public SimpleResponse updateFavorite(Long userId, Long NewsId, FavoriteRequest favoriteRequest ) {
+        return favoriteRepository.updateFavoriteNews(userId,NewsId,favoriteRequest);
     }
 
     @Override

@@ -9,6 +9,6 @@ public interface FavoriteService {
     SimpleResponse favoriteUserToNews(Long userId,Long newsId,FavoriteRequest favoriteRequest);
     FavoritePagination getAllFavorite( int currentPage, int pageSize);
     FavoriteResponse getByIdFavorite(Long id);
-    SimpleResponse updateFavorite(Long id, FavoriteRequest favoriteRequest);
+    SimpleResponse updateFavorite(Long userId, Long NewsId, FavoriteRequest favoriteRequest);
     SimpleResponse deleteFavorite(Long id);
 }
