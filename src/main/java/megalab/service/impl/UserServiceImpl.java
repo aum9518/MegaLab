@@ -58,6 +58,9 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userRequest.lastName());
         user.setImage(userRequest.image());
         user.setUserInfo(userInfo);
+        user.setDateOfBirth(userRequest.dateOfBirth());
+        user.setPhoneNumber(userRequest.phoneNumber());
+        user.setGender(userRequest.gender());
         user.setBlock(false);
         userRepository.save(user);
 
@@ -161,5 +164,10 @@ public class UserServiceImpl implements UserService {
             }else throw new BadRequestException("You can not delete this account");
 
 
+    }
+
+    @Override
+    public UserPagination searchUser(String word, int currentPage, int pageSize) {
+        return null;
     }
 }
