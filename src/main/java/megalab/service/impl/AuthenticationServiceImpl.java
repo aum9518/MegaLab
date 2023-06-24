@@ -10,7 +10,6 @@ import megalab.dto.authentication.SignInRequest;
 import megalab.dto.authentication.SignUpRequest;
 import megalab.entity.User;
 import megalab.entity.UserInfo;
-import megalab.enums.Gender;
 import megalab.enums.Role;
 import megalab.exception.AlreadyExistException;
 import megalab.exception.BadCredentialException;
@@ -20,7 +19,7 @@ import megalab.service.AuthenticationService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+
 import java.time.ZonedDateTime;
 
 @Service
@@ -75,6 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (!passwordEncoder.matches(signInRequest.getPassword(), userInfo.getPassword())) {
             throw new BadCredentialException("Wrong password!");
         }
+
         String token = jwtService.generateToken(userInfo);
         return AuthenticationResponse
                 .builder()
