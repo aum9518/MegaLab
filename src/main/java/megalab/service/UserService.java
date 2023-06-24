@@ -13,6 +13,6 @@ public interface UserService {
     SimpleResponse update(Long userId,UserRequest userRequest);
     UserResponse getUserById(Long id);
     SimpleResponse deleteUser(Long id);
-    UserPagination searchUser(String word, int currentPage, int pageSize);
+//    UserPagination searchUser(String word, int currentPage, int pageSize);
 
 }
