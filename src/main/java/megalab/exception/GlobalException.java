@@ -22,6 +22,7 @@ public class GlobalException {
         return ExceptionResponse.builder()
                 .httpStatus(HttpStatus.BAD_REQUEST)
                 .message(errors.toString())
+
                 .className(e.getClass().getSimpleName())
                 .build();
     }
