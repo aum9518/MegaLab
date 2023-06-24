@@ -13,10 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class FavoriteApi {
     private final FavoriteService favoriteService ;
-    @PostMapping
-    public SimpleResponse favoriteUserToNews(@RequestBody FavoriteRequest favoriteRequest){
-        return favoriteService.favoriteUserToNews(favoriteRequest);
-    }
     @GetMapping("/getAll")
     public FavoritePagination getAllFavorite(@RequestParam int page,
                                              @RequestParam int size){

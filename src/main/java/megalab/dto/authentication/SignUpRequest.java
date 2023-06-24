@@ -2,7 +2,7 @@ package megalab.dto.authentication;
 
 import lombok.*;
 import megalab.enums.Gender;
-import megalab.enums.Role;
+
 
 
 import java.time.LocalDate;

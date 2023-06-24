@@ -1,8 +1,6 @@
 package megalab.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.RequiredArgsConstructor;
 import megalab.config.JwtService;
 import megalab.dto.authentication.AuthenticationResponse;
