@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "userInfo")
+@Table(name = "user_Info")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,14 +20,14 @@ import java.util.List;
 public class UserInfo implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "userInfo_gen")
-    @SequenceGenerator(name = "userInfo_gen",sequenceName = "userInfo_seq",allocationSize = 1)
+    @SequenceGenerator(name = "userInfo_gen",sequenceName = "userInfo_seq",allocationSize = 1,initialValue = 5)
     private Long id;
     private String nickName;
     private String password;
     private String email;
-    private String image;
     private ZonedDateTime createdAt;
     private ZonedDateTime modifiedAt;
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
