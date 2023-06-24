@@ -6,7 +6,7 @@ import megalab.dto.favorite.FavoriteRequest;
 import megalab.dto.favorite.FavoriteResponse;
 
 public interface FavoriteService {
-    SimpleResponse saveFavorite(FavoriteRequest favoriteRequest);
+    SimpleResponse favoriteUserToNews(Long userId,Long newsId,FavoriteRequest favoriteRequest);
     FavoritePagination getAllFavorite( int currentPage, int pageSize);
     FavoriteResponse getByIdFavorite(Long id);
     SimpleResponse updateFavorite(Long id, FavoriteRequest favoriteRequest);
