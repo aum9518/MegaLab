@@ -10,11 +10,9 @@ import lombok.Setter;
 public class AuthenticationResponse {
     private String token;
     private String email;
-    private String role;
 
-    public AuthenticationResponse(String token, String email, String role) {
+    public AuthenticationResponse(String token, String email) {
         this.token = token;
         this.email = email;
-        this.role = role;
     }
 }

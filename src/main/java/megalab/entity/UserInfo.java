@@ -16,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class UserInfo implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "userInfo_gen")
@@ -32,8 +31,15 @@ public class UserInfo implements UserDetails {
 
     @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     private User user;
-
-
+@Builder
+    public UserInfo(String nickName, String password, String email, ZonedDateTime createdAt, ZonedDateTime modifiedAt, Role role) {
+        this.nickName = nickName;
+        this.password = password;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

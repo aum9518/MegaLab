@@ -35,4 +35,14 @@ public class GlobalException {
                 .className(e.getClass().getSimpleName())
                 .build();
     }
+
+    @ExceptionHandler(BadCredentialException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionResponse handleBadCredential(BadCredentialException e) {
+        return ExceptionResponse.builder()
+                .httpStatus(HttpStatus.FORBIDDEN)
+                .message(e.getMessage())
+                .className(e.getClass().getSimpleName())
+                .build();
+    }
 }
