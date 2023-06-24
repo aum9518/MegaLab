@@ -12,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class NewsPagination {
-    private List<NewsResponse> newsResponses;
+    private List<AllNewsResponse> newsResponses;
     private int currentPage;
     private int pageSize;
 
-    public NewsPagination(List<NewsResponse> newsResponses, int currentPage, int pageSize) {
+    public NewsPagination(List<AllNewsResponse> newsResponses, int currentPage, int pageSize) {
         this.newsResponses = newsResponses;
         this.currentPage = currentPage;
         this.pageSize = pageSize;

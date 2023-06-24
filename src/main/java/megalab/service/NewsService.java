@@ -6,7 +6,7 @@ import megalab.dto.news.NewsRequest;
 import megalab.dto.news.NewsResponse;
 
 public interface NewsService {
-    SimpleResponse saveNews(Long categoryId, NewsRequest newsRequest);
+    SimpleResponse saveNews(NewsRequest newsRequest);
 
     NewsPagination getAllNews(int currentPage, int pageSize);
 
