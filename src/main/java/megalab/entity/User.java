@@ -2,6 +2,9 @@ package megalab.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import megalab.enums.Gender;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import java.util.List;
@@ -11,8 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-
 public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_gen")
@@ -20,6 +21,10 @@ public class User  {
     private Long id;
     private String firstName;
     private String lastName;
+    private LocalDate dateOfBirth;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    private String phoneNumber;
     private String image;
     private boolean isBlock;
 
@@ -34,7 +39,14 @@ public class User  {
 
     @OneToMany(mappedBy = "user",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE})
     private List<Comment> comments;
-
-
-
+    @Builder
+    public User(String firstName, String lastName, LocalDate dateOfBirth, Gender gender, String phoneNumber, String image, boolean isBlock) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.image = image;
+        this.isBlock = isBlock;
+    }
 }
