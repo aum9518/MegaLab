@@ -18,12 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationApi {
     private final AuthenticationService authenticationService;
     @PostMapping("/signUp")
-    @PreAuthorize("hasAnyAuthority('USER,')")
     public AuthenticationResponse signUp(@RequestBody SignUpRequest signUpRequest){
         return authenticationService.signUp(signUpRequest);
     }
     @PostMapping("/signIn")
-    @PreAuthorize("hasAnyAuthority('ADMIN','USER','JOURNALIST')")
     public AuthenticationResponse signIn(@RequestBody SignInRequest signInRequest){
         return authenticationService.signIn(signInRequest);
     }
