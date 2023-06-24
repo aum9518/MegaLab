@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    @Query("SELECT NEW megalab.dto.comment.CommentResponse(c.id,c.text,c.createDate,c.updatedDate) FROM Comment c order by c.createDate desc ")
-Page<CommentResponse> getAllComment(Pageable pageable);
+    @Query("SELECT NEW megalab.dto.comment.CommentResponse(c.id,c.text,c.createDate,c.updatedDate) FROM Comment c JOIN c.news n where n.id =: newsId order by c.createDate desc ")
+Page<CommentResponse> getAllComment(Long newsId, Pageable pageable);
 @Query("SELECT NEW megalab.dto.comment.CommentResponse(c.id,c.text,c.createDate,c.updatedDate) FROM Comment c where c.id=:id")
    Optional <CommentResponse> getByIdComment(Long id);
 }
