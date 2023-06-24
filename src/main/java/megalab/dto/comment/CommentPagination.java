@@ -12,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CommentPagination {
-    List<CommentPagination> commentPagination;
+    List<CommentResponse> commentPagination;
     int currentPage;
     int pageSize;
 
-    public CommentPagination(List<CommentPagination> commentPagination, int currentPage, int pageSize) {
+    public CommentPagination(List<CommentResponse> commentPagination, int currentPage, int pageSize) {
         this.commentPagination = commentPagination;
         this.currentPage = currentPage;
         this.pageSize = pageSize;
