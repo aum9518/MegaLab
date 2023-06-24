@@ -15,14 +15,14 @@ public class UserResponse {
    private String lastName;
    private String nickName;
    private String image;
-   private boolean isBlocked;
+   private String email;
 
-    public UserResponse(Long id, String firstName, String lastName, String nickName, String image, boolean isBlocked) {
+    public UserResponse(Long id, String firstName, String lastName, String nickName, String image, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickName = nickName;
         this.image = image;
-        this.isBlocked = isBlocked;
+        this.email = email;
     }
 }
