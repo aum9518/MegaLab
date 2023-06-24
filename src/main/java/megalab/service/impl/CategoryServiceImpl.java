@@ -28,7 +28,10 @@ public class CategoryServiceImpl implements CategoryService {
             throw new AlreadyExistException("there is such a category!!!");
         }
         category.setName(categoryRequest.name());
+        categoryRepository.save(category);
         return SimpleResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Успешно")
                 .build();
     }
 

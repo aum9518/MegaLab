@@ -16,7 +16,7 @@ import java.util.List;
 public class News {
     @Id
     @GeneratedValue(generator = "news_gen", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "news-gen",sequenceName = "news-seq",allocationSize = 1,initialValue = 5)
+    @SequenceGenerator(name = "news_gen",sequenceName = "news_seq",allocationSize = 1,initialValue = 5)
     private Long id;
     private String name;
     private String image;

@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface NewsRepository extends JpaRepository<News, Long> {
     @Query("SELECT NEW megalab.dto.news.NewsResponse(n.id,n.name,n.image,n.description,n.text,n.createDate) FROM News n WHERE n.id = ?1")
     Optional<NewsResponse> getNewsId(Long id);
+
     @Query("SELECT n FROM News n JOIN n.user u WHERE n.id = ?1 AND u.id = ?2")
-    Optional<News> getNewsId(Long newsId,Long userId);
+    Optional<News> getNewsId(Long newsId, Long userId);
+
 }

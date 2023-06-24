@@ -18,5 +18,5 @@ public interface NewsService {
 
     NewsPagination searchNews(String word,int currentPage, int pageSize);
 
-    NewsPagination getNewsByUserId(Long userId,int currentPage, int pageSize);
+    NewsPagination getNewsByUserId(int currentPage, int pageSize);
 }
