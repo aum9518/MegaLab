@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -30,6 +31,7 @@ import java.time.ZonedDateTime;
 public class UserServiceImpl implements UserService {
     private  final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private User getAuthentication(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,7 +54,6 @@ public class UserServiceImpl implements UserService {
     public SimpleResponse saveUser(UserRequest userRequest) {
         User user = new User();
         UserInfo userInfo = new UserInfo();
-        User authentication = getAuthentication();
 
         user.setFirstName(userRequest.firstName());
         user.setLastName(userRequest.lastName());
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         userInfo.setNickName(userRequest.nickName());
-        userInfo.setPassword(userRequest.password());
+        userInfo.setPassword(passwordEncoder.encode(userRequest.password()));
         userInfo.setRole(Role.JOURNALIST);
         userInfo.setEmail(userRequest.email());
         userInfo.setModifiedAt(ZonedDateTime.now());
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
 
         userInfo.setNickName(userRequest.nickName());
-        userInfo.setPassword(userRequest.password());
+        userInfo.setPassword(passwordEncoder.encode(userRequest.password()));
         userInfo.setEmail(userRequest.email());
         userInfo.setModifiedAt(ZonedDateTime.now());
 
