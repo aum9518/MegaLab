@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentPagination getAllComment(Long newsId, int currentPage, int pageSize) {
 
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
-        Page<CommentResponse> allComment = commentRepository.getAllComment(newsId,pageable);
+        Page<CommentResponse> allComment = commentRepository.getAllComment(newsId, pageable);
         return CommentPagination.builder()
                 .commentPagination(allComment.getContent())
                 .currentPage(allComment.getNumber() + 1)
@@ -58,12 +58,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public SimpleResponse updateComment(Long id, CommentRequest commentRequest) {
+    public SimpleResponse updateComment(Long id, Long newsId, CommentRequest commentRequest) {
         String nickName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.getUserByUserInfoNickName(nickName).orElseThrow(() -> new NotFoundException("Comment with nickName: " + nickName + "is not fount"));
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new NotFoundException("Comment with id: " + id + "is not fount"));
-
-        comment.setText(commentRequest.text());
+        Comment comment = commentRepository.getCommentIdAndNewsId(id, newsId, user.getId()).orElseThrow(() -> new NotFoundException("Comment with id: " + id + "is not fount"));
+        comment.setText(commentRequest.text() == null || commentRequest.text().isBlank() || comment.getText().equalsIgnoreCase(commentRequest.text()) ? comment.getText() : commentRequest.text());
         comment.setUpdatedDate(ZonedDateTime.now());
         return SimpleResponse.builder()
                 .status(HttpStatus.OK)

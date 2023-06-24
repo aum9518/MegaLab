@@ -26,17 +26,28 @@ public class CommentApi {
     @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
     @GetMapping("/{newsId}")
     @Operation(summary = "get all comment", description = "token")
-    public CommentPagination getAllComment(@PathVariable Long newsId,@RequestParam int currentPage, @RequestParam int pageSize) {
-        return commentService.getAllComment(newsId,currentPage, pageSize);
+    public CommentPagination getAllComment(@PathVariable Long newsId, @RequestParam int currentPage, @RequestParam int pageSize) {
+        return commentService.getAllComment(newsId, currentPage, pageSize);
     }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
     @Operation(summary = "get by id", description = "token")
-    public CommentResponse getByIdComment(@PathVariable Long id){
+    public CommentResponse getByIdComment(@PathVariable Long id) {
         return commentService.getByIdComment(id);
     }
 
-    public SimpleResponse updateComment(Long id, CommentRequest commentRequest){
-        return commentService.updateComment(id,commentRequest);
+    @PutMapping("/update/{id}/{newsId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
+    @Operation(summary = "update comment", description = "token")
+    public SimpleResponse updateComment(@PathVariable Long id, @PathVariable Long newsId, CommentRequest commentRequest) {
+        return commentService.updateComment(id, newsId, commentRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
+    @Operation(summary = "delete comment", description = "token")
+    public SimpleResponse deleteComment(@PathVariable Long id) {
+        return commentService.deleteComment(id);
     }
 }
