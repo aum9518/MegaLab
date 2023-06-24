@@ -100,6 +100,11 @@ public class NewsServiceImpl implements NewsService {
         news.setDescription(newsRequest.description() == null || newsRequest.description().isBlank() || news.getDescription().equalsIgnoreCase(newsRequest.description()) ? news.getDescription() : newsRequest.description());
         news.setImage(newsRequest.image() == null || newsRequest.image().isBlank() || news.getImage().equalsIgnoreCase(newsRequest.image()) ? news.getImage() : newsRequest.image());
         news.setText(newsRequest.text() == null || newsRequest.text().isBlank() || news.getText().equalsIgnoreCase(newsRequest.text()) ? news.getText() : newsRequest.text());
+        List<Category> categories = newsRequest.categoryIds().stream()
+                .map(l -> categoryRepository.findById(l)
+                        .orElseThrow(() -> new NotFoundException("Category with id: %s not found".formatted(l))))
+                .collect(Collectors.toList());
+        news.setCategories(categories);
         newsRepository.save(news);
         return SimpleResponse
                 .builder()
@@ -122,15 +127,17 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public NewsPagination searchNews(String word, int currentPage, int pageSize) {
         int offset = (currentPage - 1) * pageSize;
-        String query = "SELECT n.id,n.name,n.image,n.description,n.create_date FROM news n" +
-                " JOIN news_categories nc ON n.id = nc.news_id " +
-                " JOIN categories c on nc.categories_id = c.id " +
-                " WHERE n.name = ?1 OR n.description = ?1 OR n.text = ?1 OR c.name = ?1" +
-                "  LIMIT ?2 OFFSET ?3 ";
+        String query = "SELECT n.id, n.name, n.image, n.description, n.create_date" +
+        " FROM news n " +
+        " JOIN news_categories nc ON n.id = nc.news_id " +
+        " JOIN categories c ON nc.categories_id = c.id " +
+        " WHERE n.name ILIKE CONCAT('%', ?, '%') OR n.description ILIKE CONCAT('%', ?, '%') OR n.text ILIKE CONCAT('%', ?, '%') OR c.name ILIKE CONCAT('%', ?, '%') " +
+       " LIMIT ? OFFSET ?";
+
         List<AllNewsResponse> list = jdbcTemplate
                 .query(
                         query,
-                        new Object[]{word,pageSize, offset},
+                        new Object[]{word,word,word,word,pageSize, offset},
                         (rs, rowNum) -> new AllNewsResponse(
                                 rs.getLong("id"),
                                 rs.getString("name"),

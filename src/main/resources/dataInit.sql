@@ -23,10 +23,10 @@ values (1,'SpaceX','img','Elon Musk','text',now(),2),
        (4,'Google','img','Bard','text',now(),2);
 
 insert into comments(id,text,create_date,updated_date,news_id,user_id)
-values (1,'Wow',now(),now(),1,3),
-       (2,'Real',now(),now(),1,2),
-       (3,'Super',now(),now(),1,3),
-       (4,'Lol',now(),now(),1,4);
+values (1,'Wow',now(),now(),2,3),
+       (2,'Real',now(),now(),2,2),
+       (3,'Super',now(),now(),2,3),
+       (4,'Lol',now(),now(),2,4);
 
 insert into news_categories (categories_id, news_id)
 values (1,1),
