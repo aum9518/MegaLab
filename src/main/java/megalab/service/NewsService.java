@@ -11,6 +11,8 @@ public interface NewsService {
     NewsPagination getAllNews(int currentPage, int pageSize);
 
     NewsResponse getByIdNews(Long id);
+
     SimpleResponse updateNews(Long id, NewsRequest newsRequest);
+
     SimpleResponse deleteNews(Long id);
 }
