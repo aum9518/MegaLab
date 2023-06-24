@@ -24,10 +24,10 @@ public class CommentApi {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
-    @GetMapping
+    @GetMapping("/{newsId}")
     @Operation(summary = "get all comment", description = "token")
-    public CommentPagination getAllComment(@RequestParam int currentPage, @RequestParam int pageSize) {
-        return commentService.getAllComment(currentPage, pageSize);
+    public CommentPagination getAllComment(@PathVariable Long newsId,@RequestParam int currentPage, @RequestParam int pageSize) {
+        return commentService.getAllComment(newsId,currentPage, pageSize);
     }
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
