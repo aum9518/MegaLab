@@ -36,11 +36,19 @@ public class GlobalException {
                 .build();
     }
 
+
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse handleNotFound(BadRequestException e) {
         return ExceptionResponse.builder()
                 .httpStatus(HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(BadCredentialException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionResponse handleBadCredential(BadCredentialException e) {
+        return ExceptionResponse.builder()
+                .httpStatus(HttpStatus.FORBIDDEN)
+
                 .message(e.getMessage())
                 .className(e.getClass().getSimpleName())
                 .build();
