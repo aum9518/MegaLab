@@ -6,9 +6,11 @@ import megalab.dto.SimpleResponse;
 import megalab.dto.favorite.FavoritePagination;
 import megalab.dto.favorite.FavoriteRequest;
 import megalab.dto.favorite.FavoriteResponse;
+
 import megalab.entity.Favorite;
 import megalab.entity.News;
 import megalab.entity.User;
+
 import megalab.repository.FavoriteRepository;
 import megalab.repository.NewsRepository;
 import megalab.repository.UserRepository;
@@ -23,9 +25,11 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
+
     private  final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
     private final NewsRepository newsRepository;
+
     @Override
     public SimpleResponse favoriteUserToNews(Long userId,Long newsId,FavoriteRequest favoriteRequest) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("not user id:" + userId));
