@@ -42,6 +42,10 @@ public class GlobalException {
     public ExceptionResponse handleNotFound(BadRequestException e) {
         return ExceptionResponse.builder()
                 .httpStatus(HttpStatus.BAD_REQUEST)
+                .message(e.getMessage())
+                .className(e.getClass().getSimpleName())
+                .build();
+    }
 
     @ExceptionHandler(BadCredentialException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
