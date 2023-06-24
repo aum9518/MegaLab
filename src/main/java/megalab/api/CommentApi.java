@@ -16,13 +16,18 @@ import org.springframework.web.bind.annotation.*;
 public class CommentApi {
     private final CommentService commentService;
 
-    @PostMapping("/save")
+    @PostMapping("/save/{userId}/{newsId}")
     @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
     @Operation(summary = "save comment", description = "token")
-    public SimpleResponse saveComment(@RequestBody CommentRequest commentRequest) {
-        return commentService.saveComment(commentRequest);
+    public SimpleResponse saveComment(@PathVariable Long userId, @PathVariable Long newsId, @RequestBody CommentRequest commentRequest) {
+        return commentService.saveComment(userId, newsId, commentRequest);
     }
-
+    @PostMapping("/save/{comId}/{userId}/{newId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
+    @Operation(summary = "save comment", description = "token")
+    public CommentResponse save2Comment(@PathVariable Long comId,@PathVariable Long userId, @PathVariable Long newId, @RequestBody CommentRequest commentRequest) {
+        return commentService.save2Comment(comId,userId, newId, commentRequest);
+    }
     @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
     @GetMapping("/{newsId}")
     @Operation(summary = "get all comment", description = "token")
