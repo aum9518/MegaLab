@@ -1,4 +1,24 @@
 package megalab.api;
 
+import lombok.RequiredArgsConstructor;
+import megalab.dto.SimpleResponse;
+import megalab.dto.user.UserPagination;
+import megalab.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserApi {
+    private final UserService userService;
+
+    @PreAuthorize("hasAnyAuthority('ADMIN','JOURNALIST','READER')")
+    @GetMapping
+    public UserPagination getAllUsers(@RequestParam int currentPage, @RequestParam int pageSize){
+        return userService.getAllUsers(currentPage, pageSize);
+    }
+
+
+
 }
