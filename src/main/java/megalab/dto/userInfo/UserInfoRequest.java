@@ -1,4 +1,12 @@
 package megalab.dto.userInfo;
 
-public record UserInfoRequest() {
+import lombok.Builder;
+
+@Builder
+public record UserInfoRequest(String nickName,
+                              String password,
+                              String email,
+                              String image) {
+    public UserInfoRequest {
+    }
 }

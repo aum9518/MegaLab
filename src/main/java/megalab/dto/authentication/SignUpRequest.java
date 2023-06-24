@@ -1,9 +1,6 @@
 package megalab.dto.authentication;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import megalab.enums.Role;
 
 
@@ -11,7 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class SignUpRequest {
     private String firstName;
@@ -20,7 +17,13 @@ public class SignUpRequest {
     private String email;
     private String password;
     private String phoneNumber;
-    private Role role;
-    private int experience;
 
+    public SignUpRequest(String firstName, String lastName, LocalDate dateOfBirth, String email, String password, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
 }
