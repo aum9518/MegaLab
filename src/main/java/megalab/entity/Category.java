@@ -19,9 +19,6 @@ public class Category {
     private Long id;
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
-    private List<News>news;
-
     public Category(String name) {
         this.name = name;
     }

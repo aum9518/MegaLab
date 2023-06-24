@@ -1,4 +1,9 @@
 package megalab.dto.category;
 
-public record CategoryRequest() {
+import lombok.Builder;
+
+@Builder
+public record CategoryRequest(String name) {
+    public CategoryRequest {
+    }
 }

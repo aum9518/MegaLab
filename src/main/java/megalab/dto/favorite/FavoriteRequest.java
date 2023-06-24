@@ -1,4 +1,10 @@
 package megalab.dto.favorite;
 
-public record FavoriteRequest() {
+import lombok.Builder;
+
+@Builder
+public record FavoriteRequest(Long userId,
+                              Long newsId) {
+    public FavoriteRequest {
+    }
 }

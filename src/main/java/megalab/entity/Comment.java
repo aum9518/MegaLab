@@ -30,7 +30,7 @@ public class Comment {
     private News news;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "comment_id")
     private List<Comment> comments;
 
     public Comment(String text, ZonedDateTime createDate, ZonedDateTime updatedDate) {
