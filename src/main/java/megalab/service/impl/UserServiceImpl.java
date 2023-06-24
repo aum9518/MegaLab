@@ -152,29 +152,27 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id:%s is not present", id)));
 
         UserInfo userInfo = userInfoRepository.findById(user.getUserInfo().getId()).orElseThrow(() -> new NotFoundException(String.format("UserInfo with id:%s is not present", user.getUserInfo().getUser())));
-        if (authentication.getUserInfo().getRole().equals(Role.ADMIN)){
-
-        if (user.getUserInfo().getRole().equals(Role.ADMIN)){
-
-            userRepository.deleteById(id);
-            return SimpleResponse.builder()
-                    .status(HttpStatus.OK)
-                    .message("Successfully deleted...")
-                    .build();
-        }
-            if (user.equals(authentication)){
+        if (authentication.getUserInfo().getRole().equals(Role.ADMIN)) {
                 userRepository.deleteById(id);
                 return SimpleResponse.builder()
                         .status(HttpStatus.OK)
                         .message("Successfully deleted...")
                         .build();
-            }else throw new BadRequestException("You can not delete this account");
+            }
+            if (user.equals(authentication)) {
+                userRepository.deleteById(id);
+                return SimpleResponse.builder()
+                        .status(HttpStatus.OK)
+                        .message("Successfully deleted...")
+                        .build();
+            } else throw new BadRequestException("You can not delete this account");
 
 
-    }
+        }
 
     @Override
     public UserPagination searchUser(String word, int currentPage, int pageSize) {
         return null;
     }
 }
+
