@@ -1,5 +1,6 @@
 package megalab.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import megalab.dto.SimpleResponse;
 import megalab.dto.user.UserPagination;
@@ -25,12 +26,12 @@ public class UserApi {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public SimpleResponse saveUser(@RequestBody UserRequest userRequest){
+    public SimpleResponse saveUser(@RequestBody @Valid UserRequest userRequest){
         return userService.saveUser(userRequest);
     }
     @PreAuthorize("hasAnyAuthority('ADMIN','JOURNALIST')")
     @PutMapping("/{userId}")
-    public SimpleResponse updateUser(@PathVariable Long userId,@RequestBody UserRequest userRequest){
+    public SimpleResponse updateUser(@PathVariable Long userId,@RequestBody @Valid UserRequest userRequest){
         return userService.update(userId, userRequest);
     }
 
