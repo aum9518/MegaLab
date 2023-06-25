@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
@@ -14,10 +15,11 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("SELECT NEW megalab.dto.category.CategoryResponse(c.id,c.name) from Category c order by c.id,c.name asc ")
     Page<CategoryResponse> getAllCategory(Pageable pageable);
-@Query("SELECT NEW megalab.dto.category.CategoryResponse (c.id, c.name) FROM Category c where c.id =?1")
+
+    @Query("SELECT NEW megalab.dto.category.CategoryResponse (c.id, c.name) FROM Category c where c.id =?1")
     Optional<CategoryResponse> getByIdCategory(Long id);
 
     @Query("SELECT NEW megalab.dto.category.CategoryResponse (c.id,c.name) FROM Category c where c.name ilike concat(:word, '%') or " +
             "c.name ilike concat('%',:word,'%')")
-    Page<CategoryResponse> searchCategoryByName(@Param("word") String word,Pageable pageable);
+    Page<CategoryResponse> searchCategoryByName(@Param("word") String word, Pageable pageable);
 }

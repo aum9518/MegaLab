@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 @Builder
 public class SignInRequest {
-    private String email;
+    private String nickname;
     private String password;
 
-    public SignInRequest(String email, String password) {
-        this.email = email;
+    public SignInRequest(String nickname, String password) {
+        this.nickname = nickname;
         this.password = password;
     }
 }
