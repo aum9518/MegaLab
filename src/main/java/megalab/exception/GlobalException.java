@@ -39,7 +39,7 @@ public class GlobalException {
 
 
     @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handleNotFound(BadRequestException e) {
         return ExceptionResponse.builder()
                 .httpStatus(HttpStatus.BAD_REQUEST)
@@ -54,6 +54,15 @@ public class GlobalException {
         return ExceptionResponse.builder()
                 .httpStatus(HttpStatus.FORBIDDEN)
 
+                .message(e.getMessage())
+                .className(e.getClass().getSimpleName())
+                .build();
+    }
+    @ExceptionHandler(AlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ExceptionResponse handleBadCredential(AlreadyExistException e) {
+        return ExceptionResponse.builder()
+                .httpStatus(HttpStatus.CONFLICT)
                 .message(e.getMessage())
                 .className(e.getClass().getSimpleName())
                 .build();

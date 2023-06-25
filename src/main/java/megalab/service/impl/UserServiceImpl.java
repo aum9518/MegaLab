@@ -196,7 +196,7 @@ public class UserServiceImpl implements UserService {
     public UserPagination searchUser(String word, int currentPage, int pageSize) {
         int a = (currentPage-1)*pageSize;
         String query = "select u.id,u.first_name,u.last_name,ui.nick_name,u.image,ui.email from users u join user_info AS ui ON u.id = ui.user_id  WHERE u.first_name ILIKE CONCAT ('%', ? , '%') OR u.first_name ILIKE CONCAT ('%', ? , '%') OR ui.nick_name ILIKE CONCAT ('%',?,'%') LIMIT ? OFFSET ?";
-        List<UserResponse> users = jdbcTemplate.query(query,new Object[]{word,word,word,pageSize,a},(rs,row) -> new UserResponse(
+        List<UserResponse> users = jdbcTemplate.query(query,new Object[]{word,word,word,pageSize,a},(rs, row) -> new UserResponse(
                 rs.getLong("id"),
                 rs.getString("first_name"),
                 rs.getString("last_name"),

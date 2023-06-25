@@ -1,6 +1,5 @@
 package megalab.service.impl;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import megalab.config.JwtService;
 import megalab.dto.authentication.AuthenticationResponse;
@@ -11,6 +10,7 @@ import megalab.entity.UserInfo;
 import megalab.enums.Role;
 import megalab.exception.AlreadyExistException;
 import megalab.exception.BadCredentialException;
+import megalab.exception.NotFoundException;
 import megalab.repository.UserInfoRepository;
 import megalab.repository.UserRepository;
 import megalab.service.AuthenticationService;
@@ -63,8 +63,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse signIn(SignInRequest signInRequest) {
-        UserInfo userInfo = userInfoRepository.getUserByEmail(signInRequest.getEmail()).orElseThrow(
-                () -> new EntityNotFoundException("User with email: " + signInRequest.getEmail() + " not found!")
+        UserInfo userInfo = userInfoRepository.getUserInfoByNickName(signInRequest.getNickname()).orElseThrow(
+                () -> new NotFoundException("User with nickname: " + signInRequest.getNickname() + " not found!")
         );
         if (signInRequest.getPassword().isBlank()) {
             throw new BadCredentialException("Password is blank");
