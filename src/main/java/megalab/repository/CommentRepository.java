@@ -11,11 +11,11 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
+
+  //  @Query("SELECT NEW megalab.dto.comment.CommentResponse(c.id,c.text,c.updatedDate) FROM Comment c JOIN c.news n where n.id =?1 order by c.createDate desc ")
+
     @Query("SELECT NEW megalab.dto.comment.CommentResponse(c.id,c.text,c.createDate,c.updatedDate) FROM Comment c JOIN c.news n where n.id = ?1 order by c.createDate desc ")
-
-    @Query("SELECT NEW megalab.dto.comment.CommentResponse(c.id,c.text,c.updatedDate) FROM Comment c JOIN c.news n where n.id =?1 order by c.createDate desc ")
-
-Page<CommentResponse> getAllComment(Long newsId, Pageable pageable);
+    Page<CommentResponse> getAllComment(Long newsId, Pageable pageable);
 @Query("SELECT NEW megalab.dto.comment.CommentResponse(c.id,c.text,c.updatedDate) FROM Comment c where c.id=?1")
    Optional <CommentResponse> getByIdComment(Long id);
 @Query(" SELECT c FROM Comment c JOIN c.news n JOIN c.user u WHERE c.id =?1 AND n.id=?2 AND u.id=?3")

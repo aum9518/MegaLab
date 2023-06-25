@@ -46,5 +46,23 @@ public class UserApi {
         return userService.deleteUser(userId);
     }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping("/search")
+    public UserPagination search(@RequestParam String word,@RequestParam int currentPage,@RequestParam int pageSize){
+        return userService.searchUser(word, currentPage, pageSize);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/block")
+    public SimpleResponse blockOrUnblock(@RequestParam String word,@RequestParam Long id){
+        return userService.blockOrUnblock(word, id);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(("/filter"))
+    public UserPagination filterByBlock(@RequestParam boolean isBlock, @RequestParam int currentPage ,@RequestParam int pageSize){
+        return userService.filterByBlock(isBlock, currentPage, pageSize);
+    }
+
 
 }
