@@ -34,6 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new AlreadyExistException("User with email %s already exist".formatted(signUpRequest.getEmail()));
         }
         if (userInfoRepository.existsByNickName(signUpRequest.getNickName())) {
+
             throw new AlreadyExistException("User with nickName %s already exist".formatted(signUpRequest.getNickName()));
         }
         User user = User.builder()

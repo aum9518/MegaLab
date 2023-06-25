@@ -10,8 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-
-
     @Query("select new megalab.dto.user.UserResponse(u.id,u.firstName,u.lastName,us.nickName,u.image,us.email) from User u join u.userInfo us")
     Page<UserResponse> getAllUsers(Pageable pageable);
 
