@@ -15,42 +15,41 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommentApi {
     private final CommentService commentService;
-
-    @PostMapping("/save/{userId}/{newsId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
+    @PostMapping("/save/{newsId}")
+    @PreAuthorize("permitAll()")
     @Operation(summary = "save comment", description = "token")
-    public SimpleResponse saveComment(@PathVariable Long userId, @PathVariable Long newsId, @RequestBody CommentRequest commentRequest) {
-        return commentService.saveComment(userId, newsId, commentRequest);
+    public SimpleResponse saveComment( @PathVariable Long newsId, @RequestBody CommentRequest commentRequest) {
+        return commentService.saveComment( newsId, commentRequest);
     }
-    @PostMapping("/save/{comId}/{userId}/{newId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
+    @PostMapping("/save/{comId}/{newId}")
+    @PreAuthorize("permitAll()")
     @Operation(summary = "save comment", description = "token")
-    public CommentResponse save2Comment(@PathVariable Long comId,@PathVariable Long userId, @PathVariable Long newId, @RequestBody CommentRequest commentRequest) {
-        return commentService.save2Comment(comId,userId, newId, commentRequest);
+    public CommentResponse save2Comment(@PathVariable Long comId, @PathVariable Long newId, @RequestBody CommentRequest commentRequest) {
+        return commentService.save2Comment(comId, newId, commentRequest);
     }
-    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
-    @GetMapping("/{newsId}")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/getAll/{newsId}")
     @Operation(summary = "get all comment", description = "token")
     public CommentPagination getAllComment(@PathVariable Long newsId, @RequestParam int currentPage, @RequestParam int pageSize) {
         return commentService.getAllComment(newsId, currentPage, pageSize);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
+    @PreAuthorize("permitAll()")
     @Operation(summary = "get by id", description = "token")
     public CommentResponse getByIdComment(@PathVariable Long id) {
         return commentService.getByIdComment(id);
     }
 
     @PutMapping("/update/{id}/{newsId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
+    @PreAuthorize("permitAll()")
     @Operation(summary = "update comment", description = "token")
     public SimpleResponse updateComment(@PathVariable Long id, @PathVariable Long newsId, CommentRequest commentRequest) {
         return commentService.updateComment(id, newsId, commentRequest);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN,USER,JOURNALIST')")
+    @PreAuthorize("permitAll()")
     @Operation(summary = "delete comment", description = "token")
     public SimpleResponse deleteComment(@PathVariable Long id) {
         return commentService.deleteComment(id);

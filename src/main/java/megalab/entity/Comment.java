@@ -1,6 +1,7 @@
 package megalab.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,10 +33,12 @@ public class Comment {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "comment_id")
     private List<Comment> comments;
-
-    public Comment(String text, ZonedDateTime createDate, ZonedDateTime updatedDate) {
+@Builder
+    public Comment(String text, ZonedDateTime createDate, ZonedDateTime updatedDate, User user, News news) {
         this.text = text;
         this.createDate = createDate;
         this.updatedDate = updatedDate;
+        this.user = user;
+        this.news = news;
     }
 }

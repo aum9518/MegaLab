@@ -2,6 +2,7 @@ package megalab.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import megalab.dto.SimpleResponse;
+import lombok.extern.slf4j.Slf4j;
 import megalab.dto.category.CategoryPagination;
 import megalab.dto.category.CategoryRequest;
 import megalab.dto.category.CategoryResponse;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
@@ -25,8 +27,10 @@ public class CategoryServiceImpl implements CategoryService {
     public SimpleResponse saveCategory(CategoryRequest categoryRequest) {
         Category category = new Category();
         if (categoryRepository.existsByName(categoryRequest.name())) {
+            log.error("there is such a name: %s annot be added".formatted(categoryRequest.name()));
             throw new AlreadyExistException("there is such a category!!!");
         }
+
         category.setName(categoryRequest.name());
         categoryRepository.save(category);
         return SimpleResponse.builder()
@@ -49,13 +53,18 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse getByIdCategory(Long id) {
         return categoryRepository.getByIdCategory(id)
-                .orElseThrow(() -> new NotFoundException("Category with id: " + id + "is not found!"));
+                .orElseThrow(() -> {
+                    log.error("Category with id: " + id + "is not found!");
+                    return new NotFoundException("Category with id: " + id + "is not found!");
+                });
     }
 
     @Override
     public SimpleResponse updateCategory(Long id, CategoryRequest categoryRequest) {
-        Category category = categoryRepository.findById(id).orElseThrow(() ->
-                new NotFoundException(String.format("Category with id: " + id + "is not found")));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> {
+            log.error("Category with id: " + id + "is not found");
+            return new NotFoundException(String.format("Category with id: " + id + "is not found"));
+        });
         category.setName(categoryRequest.name());
         categoryRepository.save(category);
         return SimpleResponse.builder()
@@ -66,8 +75,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public SimpleResponse deleteCategory(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() ->
-                new NotFoundException(String.format("Category with id: " + id + "is not found")));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> {
+            log.error("Category with id: " + id + "is not found");
+            return new NotFoundException(String.format("Category with id: " + id + "is not found"));
+        });
         categoryRepository.delete(category);
         return SimpleResponse.builder()
                 .status(HttpStatus.OK)
@@ -78,11 +89,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryPagination searchByName(String word, int currentPage, int pageSize) {
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
-        Page<CategoryResponse> allCategories = categoryRepository.searchCategoryByName(word,pageable);
+        Page<CategoryResponse> allCategories = categoryRepository.searchCategoryByName(word, pageable);
         return CategoryPagination.builder()
                 .categoryResponses(allCategories.getContent())
                 .currentPage(allCategories.getNumber() + 1)
-                .pageSize(allCategories.getTotalPages())
+                .pageSize(allCategories.getSize())
                 .build();
     }
 }

@@ -13,7 +13,6 @@ import java.time.ZonedDateTime;
 public class CommentResponse {
     private Long id;
     private String text;
-    private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
     public CommentResponse(Long id, String text, ZonedDateTime updatedAt) {
@@ -22,10 +21,5 @@ public class CommentResponse {
         this.updatedAt = updatedAt;
     }
 
-    public CommentResponse(Long id, String text, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
-        this.id = id;
-        this.text = text;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+
 }
