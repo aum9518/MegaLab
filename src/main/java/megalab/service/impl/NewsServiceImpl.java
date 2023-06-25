@@ -187,14 +187,14 @@ public class NewsServiceImpl implements NewsService {
         List<AllNewsResponse> list = jdbcTemplate
                 .query(
                         query,
+
+                        new Object[]{word, word, word, word, pageSize, offset},
                         (rs, rowNum) -> new AllNewsResponse(
                                 rs.getLong("id"),
                                 rs.getString("name"),
                                 rs.getString("image"),
                                 rs.getString("description"),
-                                rs.getString("create_date")),
-                        new Object[]{word, word, word, word, pageSize, offset},
-                        new ArrayList<>()
+                                rs.getString("create_date"))
                 );
         log.info("Search news get all");
         return NewsPagination
@@ -218,14 +218,13 @@ public class NewsServiceImpl implements NewsService {
         List<AllNewsResponse> allNewsResponses = jdbcTemplate
                 .query(
                         query,
+                        new Object[]{user.getId(), pageSize, offset},
                         (rs, rowNum) -> new AllNewsResponse(
                                 rs.getLong(1),
                                 rs.getString(2),
                                 rs.getString(3),
                                 rs.getString(4),
-                                rs.getString(5)),
-                        new Object[]{user.getId(), pageSize, offset},
-                        new ArrayList<>()
+                                rs.getString(5))
                 );
         log.info("My news get all");
         return NewsPagination

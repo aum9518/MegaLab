@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.List;
 
 @RestControllerAdvice
@@ -63,6 +65,28 @@ public class GlobalException {
     public ExceptionResponse handleBadCredential(AlreadyExistException e) {
         return ExceptionResponse.builder()
                 .httpStatus(HttpStatus.CONFLICT)
+                .message(e.getMessage())
+                .className(e.getClass().getSimpleName())
+                .build();
+    }
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ExceptionResponse handleAccessDenied(AccessDeniedException e){
+        return ExceptionResponse
+                .builder()
+                .httpStatus(HttpStatus.UNAUTHORIZED)
+                .message(e.getMessage())
+                .className(e.getClass().getSimpleName())
+                .build();
+
+    }
+
+    @ExceptionHandler(SQLFeatureNotSupportedException.class)
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    public ExceptionResponse handleAccessDenied(SQLFeatureNotSupportedException e) {
+        return ExceptionResponse
+                .builder()
+                .httpStatus(HttpStatus.NOT_IMPLEMENTED)
                 .message(e.getMessage())
                 .className(e.getClass().getSimpleName())
                 .build();
