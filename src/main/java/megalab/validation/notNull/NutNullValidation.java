@@ -7,6 +7,6 @@ public class NutNullValidation implements ConstraintValidator<NotNullValid,Strin
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        return value.isBlank() ||  value.isEmpty();
+        return !value.isBlank() ||  !value.isEmpty();
     }
 }
