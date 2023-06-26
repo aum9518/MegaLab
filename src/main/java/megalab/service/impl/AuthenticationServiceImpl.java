@@ -10,6 +10,7 @@ import megalab.entity.UserInfo;
 import megalab.enums.Role;
 import megalab.exception.AlreadyExistException;
 import megalab.exception.BadCredentialException;
+import megalab.exception.BadRequestException;
 import megalab.exception.NotFoundException;
 import megalab.repository.UserInfoRepository;
 import megalab.repository.UserRepository;
@@ -73,7 +74,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (!passwordEncoder.matches(signInRequest.getPassword(), userInfo.getPassword())) {
             throw new BadCredentialException("Wrong password!");
         }
-
+        if (userInfo.getUser().isBlock()){
+            throw new BadRequestException("You don't have access");
+        }
         String token = jwtService.generateToken(userInfo);
         return AuthenticationResponse
                 .builder()

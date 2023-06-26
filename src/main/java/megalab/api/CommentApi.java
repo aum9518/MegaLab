@@ -10,6 +10,8 @@ import megalab.service.CommentService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/comment")
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class CommentApi {
     @PostMapping("/save/{comId}/{newId}")
     @PreAuthorize("permitAll()")
     @Operation(summary = "save comment", description = "token")
-    public CommentResponse save2Comment(@PathVariable Long comId, @PathVariable Long newId, @RequestBody CommentRequest commentRequest) {
+    public SimpleResponse save2Comment(@PathVariable Long comId, @PathVariable Long newId, @RequestBody CommentRequest commentRequest) {
         return commentService.save2Comment(comId, newId, commentRequest);
     }
     @PreAuthorize("permitAll()")
@@ -37,7 +39,7 @@ public class CommentApi {
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
     @Operation(summary = "get by id", description = "token")
-    public CommentResponse getByIdComment(@PathVariable Long id) {
+    public List<CommentResponse> getByIdComment(@PathVariable Long id) {
         return commentService.getByIdComment(id);
     }
 
