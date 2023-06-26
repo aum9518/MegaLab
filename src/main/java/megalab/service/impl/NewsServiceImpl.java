@@ -21,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,14 +128,13 @@ public class NewsServiceImpl implements NewsService {
         List<AllNewsResponse> list = jdbcTemplate
                 .query(
                         query,
+                        new Object[]{pageSize, offset},
                         (rs, rowNum) -> new AllNewsResponse(
                                 rs.getLong("id"),
                                 rs.getString("name"),
                                 rs.getString("image"),
                                 rs.getString("description"),
-                                rs.getString("create_date")),
-                        new Object[]{pageSize, offset},
-                        new ArrayList<>()
+                                rs.getDate("create_date"))
 
                 );
         log.info("Get all news");
@@ -194,7 +192,7 @@ public class NewsServiceImpl implements NewsService {
                                 rs.getString("name"),
                                 rs.getString("image"),
                                 rs.getString("description"),
-                                rs.getString("create_date"))
+                                rs.getDate("create_date"))
                 );
         log.info("Search news get all");
         return NewsPagination
@@ -224,7 +222,7 @@ public class NewsServiceImpl implements NewsService {
                                 rs.getString(2),
                                 rs.getString(3),
                                 rs.getString(4),
-                                rs.getString(5))
+                                rs.getDate(5))
                 );
         log.info("My news get all");
         return NewsPagination

@@ -4,21 +4,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
+
 public class FavoriteResponse {
     private String userName;
     private String newsName;
-    private ZonedDateTime createdAt;
+    private String createdAt;
 
-    public FavoriteResponse(String userName, String newsName, ZonedDateTime createdAt) {
+    @Builder
+    public FavoriteResponse(String userName, String newsName, ZonedDateTime created) {
         this.userName = userName;
         this.newsName = newsName;
-        this.createdAt = createdAt;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.createdAt = dateTimeFormatter.format(created);
     }
 }

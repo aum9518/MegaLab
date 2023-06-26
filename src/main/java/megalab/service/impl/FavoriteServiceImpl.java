@@ -81,6 +81,7 @@ public class FavoriteServiceImpl implements FavoriteService {
                 });
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
         Page<FavoriteResponse> byIdFavorite = favoriteRepository.findByIdFavorite(user.getId(), pageable);
+        log.info("Get all favorite");
         return FavoritePagination
                 .builder()
                 .favoriteResponses(byIdFavorite.getContent())
@@ -91,7 +92,14 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public FavoriteResponse getByIdFavorite(Long id) {
-        return favoriteRepository.getFavoriteId(id)
+        String nickName = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.getUserByUserInfoNickName(nickName).
+                orElseThrow(() -> {
+                    log.error("User with nickname: %s not found".formatted(nickName));
+                    return new NotFoundException("User with nickname: %s not found".formatted(nickName));
+                });
+        log.info("Get Favorite by id %s ".formatted(id));
+        return favoriteRepository.getFavoriteIdAndUserId(id,user.getId())
                 .orElseThrow(() -> {
                     log.error("Favorite with id: %s not found".formatted(id));
                     return new NotFoundException("Favorite with id: %s not found".formatted(id));
@@ -115,8 +123,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         }
         return favoriteRepository.getFavoriteByIdAndUserId(id, user.getId())
                 .orElseThrow(() ->
-                {
-                    log.error("Favorite with id: %s not found".formatted(id));
+                {log.error("Favorite with id: %s not found".formatted(id));
                     return new NotFoundException("Favorite with id: %s not found".formatted(id));
                 });
     }
