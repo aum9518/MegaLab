@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import megalab.dto.SimpleResponse;
+import megalab.dto.comment.CommentPagination;
+import megalab.dto.comment.CommentResponse;
 import megalab.dto.news.AllNewsResponse;
 import megalab.dto.news.NewsPagination;
 import megalab.dto.news.NewsRequest;
@@ -13,16 +15,19 @@ import megalab.entity.News;
 import megalab.entity.User;
 import megalab.exception.NotFoundException;
 import megalab.repository.CategoryRepository;
+import megalab.repository.CommentRepository;
 import megalab.repository.NewsRepository;
 import megalab.repository.UserRepository;
-import megalab.service.CommentService;
 import megalab.service.NewsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +40,7 @@ public class NewsServiceImpl implements NewsService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final JdbcTemplate jdbcTemplate;
-    private final CommentService commentService;
+    private final CommentRepository commentRepository;
 
     @Override
     public SimpleResponse saveNews(NewsRequest newsRequest) {
@@ -148,11 +153,19 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public NewsResponse getByIdNews(Long id, int currentPage, int pageSize) {
+        Pageable pageable = PageRequest.of(currentPage - 1,pageSize);
         NewsResponse newsResponse = newsRepository.getNewsId(id).orElseThrow(() -> {
             log.error("News with id: %s not found".formatted(id));
             return new NotFoundException("News with id: %s not found".formatted(id));
         });
-        newsResponse.setComments(commentService.getAllComment(id, currentPage, pageSize));
+        Page<CommentResponse> content = commentRepository.getAllByNewsId(id, pageable);
+        CommentPagination commentPagination = CommentPagination
+                .builder()
+                .commentPagination(content.getContent())
+                .currentPage(content.getNumber() + 1)
+                .pageSize(content.getSize())
+                .build();
+        newsResponse.setComments(commentPagination);
         return newsResponse;
     }
 

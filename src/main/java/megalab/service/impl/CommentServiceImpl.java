@@ -124,13 +124,14 @@ public class CommentServiceImpl implements CommentService {
                                     rs.getDate("updated_date"))
                     );
             c.setComments(responseComments);
+            log.info("Get all comment and comment response");
+            return CommentPagination.builder()
+                    .commentPagination(mainComments)
+                    .currentPage(offset)
+                    .pageSize(pageSize)
+                    .build();
         }
-        log.info("Get all comment and comment response");
-        return CommentPagination.builder()
-                .commentPagination(mainComments)
-                .currentPage(offset)
-                .pageSize(pageSize)
-                .build();
+       return null;
     }
 
     @Override
