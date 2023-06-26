@@ -62,17 +62,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public SimpleResponse save2Comment(Long comId, Long newsId, CommentRequest commentRequest) {
+    public SimpleResponse save2Comment(Long comId,  CommentRequest commentRequest) {
         String nickName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user1 = userRepository.getUserByUserInfoNickName(nickName).orElseThrow(() -> {
             log.error("Comment with nickName: " + nickName + "is not fount");
             return new NotFoundException("Comment with nickName: " + nickName + "is not fount");
         });
-        News news = newsRepository.findById(newsId)
-                .orElseThrow(() -> {
-                    log.error("News with id: " + newsId + "is not fount");
-                    return new NotFoundException("News with id: " + newsId + "is not fount");
-                });
+
         Comment comment1 = commentRepository.findById(comId).orElseThrow(() -> {
             log.error("Comment with id: " + comId + "is not fount");
             return new NotFoundException("Comment with id: " + comId + "is not fount");
@@ -81,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
                 .text(commentRequest.text())
                 .createDate(ZonedDateTime.now())
                 .updatedDate(ZonedDateTime.now())
-                .news(news)
+                .news(comment1.getNews())
                 .user(user1)
                 .build();
         comment1.getComments().add(comment);

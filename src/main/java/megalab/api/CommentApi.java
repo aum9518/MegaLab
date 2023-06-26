@@ -23,11 +23,11 @@ public class CommentApi {
     public SimpleResponse saveComment( @PathVariable Long newsId, @RequestBody CommentRequest commentRequest) {
         return commentService.saveComment( newsId, commentRequest);
     }
-    @PostMapping("/save/{comId}/{newId}")
+    @PostMapping("/save/{comId}")
     @PreAuthorize("permitAll()")
     @Operation(summary = "save comment", description = "token")
-    public SimpleResponse save2Comment(@PathVariable Long comId, @PathVariable Long newId, @RequestBody CommentRequest commentRequest) {
-        return commentService.save2Comment(comId, newId, commentRequest);
+    public SimpleResponse save2Comment(@PathVariable Long comId, @RequestBody CommentRequest commentRequest) {
+        return commentService.save2Comment(comId, commentRequest);
     }
     @PreAuthorize("permitAll()")
     @GetMapping("/getAll/{newsId}")
