@@ -166,11 +166,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public SimpleResponse deleteUser(Long id) {
         User authentication = getAuthentication();
-        User user = userRepository.findById(id).orElseThrow(() ->{log.error(String.format("User with id:%s is not present", id));
+        User user1 = userRepository.findById(id).orElseThrow(() ->{log.error(String.format("User with id:%s is not present", id));
             return new NotFoundException(String.format("User with id:%s is not present", id));
         });
 
-        UserInfo userInfo = userInfoRepository.findById(user.getUserInfo().getId()).orElseThrow(() -> new NotFoundException(String.format("UserInfo with id:%s is not present", user.getUserInfo().getUser())));
+        UserInfo userInfo = userInfoRepository.findById(user1.getUserInfo().getId()).orElseThrow(() -> new NotFoundException(String.format("UserInfo with id:%s is not present", user1.getUserInfo().getUser())));
         if (authentication.getUserInfo().getRole().equals(Role.ADMIN)) {
                 userRepository.deleteById(id);
                 log.info("Successfully deleted by Admin...");
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
                         .message("Successfully deleted...")
                         .build();
             }
-            if (user.equals(authentication)) {
+            if (user1.equals(authentication)) {
                 userRepository.deleteById(id);
                 log.info("Successfully deleted by user...");
                 return SimpleResponse.builder()

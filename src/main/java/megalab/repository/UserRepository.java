@@ -16,5 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u LEFT JOIN u.userInfo uf WHERE uf.nickName = ?1")
     Optional<User> getUserByUserInfoNickName(String nickName);
 
+    User getUserById(Long id);
 
 }

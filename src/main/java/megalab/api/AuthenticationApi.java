@@ -1,5 +1,6 @@
 package megalab.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import megalab.dto.authentication.AuthenticationResponse;
 import megalab.dto.authentication.SignInRequest;
@@ -16,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationApi {
     private final AuthenticationService authenticationService;
     @PostMapping("/signUp")
-    public AuthenticationResponse signUp(@RequestBody SignUpRequest signUpRequest){
+    public AuthenticationResponse signUp(@RequestBody @Valid SignUpRequest signUpRequest){
         return authenticationService.signUp(signUpRequest);
     }
     @PostMapping("/signIn")
-    public AuthenticationResponse signIn(@RequestBody SignInRequest signInRequest){
+    public AuthenticationResponse signIn(@RequestBody @Valid SignInRequest signInRequest){
         return authenticationService.signIn(signInRequest);
     }
 }
