@@ -1,6 +1,7 @@
 package megalab.repository;
 
 import megalab.dto.category.CategoryResponse;
+import megalab.dto.comment.CommentPagination;
 import megalab.entity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,4 +23,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT NEW megalab.dto.category.CategoryResponse (c.id,c.name) FROM Category c where c.name ilike concat(:word, '%') or " +
             "c.name ilike concat('%',:word,'%')")
     Page<CategoryResponse> searchCategoryByName(@Param("word") String word, Pageable pageable);
+
 }
