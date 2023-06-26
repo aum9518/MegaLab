@@ -91,4 +91,15 @@ public class GlobalException {
                 .className(e.getClass().getSimpleName())
                 .build();
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ExceptionResponse handleAccessDenied(NullPointerException e) {
+        return ExceptionResponse
+                .builder()
+                .httpStatus(HttpStatus.NO_CONTENT)
+                .message(e.getMessage())
+                .className(e.getClass().getSimpleName())
+                .build();
+    }
 }
